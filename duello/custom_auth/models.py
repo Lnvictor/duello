@@ -1,6 +1,7 @@
 from email.policy import default
-from django.db import models
+
 from django.contrib.auth import base_user
+from django.db import models
 
 
 class Claims(models.Model):

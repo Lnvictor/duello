@@ -1,5 +1,6 @@
 from django.core.management.base import BaseCommand
-from ...serializers import RolesSerializer, ClaimsSerializer
+
+from ...serializers import ClaimsSerializer, RolesSerializer
 
 
 class Command(BaseCommand):
@@ -37,15 +38,9 @@ class Command(BaseCommand):
             }
         )
 
-        inactive_role = RolesSerializer(
-            data={"description": "inactive", "claim_id": 1}
-        )
-        default_role = RolesSerializer(
-            data={"description": "default", "claim_id": 2}
-        )
-        creator_role = RolesSerializer(
-            data={"description": "creator", "claim_id": 3}
-        )
+        inactive_role = RolesSerializer(data={"description": "inactive", "claim_id": 1})
+        default_role = RolesSerializer(data={"description": "default", "claim_id": 2})
+        creator_role = RolesSerializer(data={"description": "creator", "claim_id": 3})
 
         inactive.is_valid(raise_exception=True)
         default.is_valid(raise_exception=True)

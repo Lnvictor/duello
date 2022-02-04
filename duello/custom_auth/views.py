@@ -1,12 +1,14 @@
-from this import d
 from django.shortcuts import get_object_or_404
-from rest_framework.decorators import permission_classes, api_view, authentication_classes
-from rest_framework.viewsets import ViewSet
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.decorators import (api_view, authentication_classes,
+                                       permission_classes)
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
-from .serializers import UserSerializer
+from rest_framework.viewsets import ViewSet
+from this import d
+
 from .facade import JwtAuthentication, JwtHandler
 from .models import Users
+from .serializers import UserSerializer
 
 
 @api_view(["POST"])
@@ -36,7 +38,9 @@ def login(request):
         "name": user.user_name,
         "last_name": user.user_last_name,
         "email": user.user_email,
-        "token": JwtHandler().gen_token(email=user.user_email, name=user.user_name, last_name=user.user_last_name)
+        "token": JwtHandler().gen_token(
+            email=user.user_email, name=user.user_name, last_name=user.user_last_name
+        ),
     }
 
     return Response(resp)
