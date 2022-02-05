@@ -2,6 +2,9 @@ import jwt
 from cryptography.hazmat.primitives import serialization
 from decouple import config
 from rest_framework.authentication import BaseAuthentication
+from rest_framework.exceptions import AuthenticationFailed
+
+from .models import Users
 
 
 class JwtHandler:
@@ -18,7 +21,10 @@ class JwtHandler:
         return jwt.encode(data, self.__key, algorithm="RS256")
 
     def decode_token(self, token):
-        return jwt.decode(token, self.__key, algorithms=["RS256"])
+        try:
+            return jwt.decode(token, self.__pkey, algorithms=["RS256"])
+        except (jwt.ExpiredSignatureError, jwt.DecodeError):
+            return False
 
 
 class JwtAuthentication(BaseAuthentication):
@@ -28,7 +34,6 @@ class JwtAuthentication(BaseAuthentication):
 
     def authenticate(self, request):
         header = self.authenticate_header(request)
-
         if not header or not "Bearer" in header:
             return None
 
@@ -42,4 +47,7 @@ class JwtAuthentication(BaseAuthentication):
 
     def get_credentials(self, token):
         payload = self.handler.decode_token(token)
-        return payload
+        if not payload:
+            raise AuthenticationFailed("Invalid Jwt Token was provided")
+        user = Users.objects.filter(user_email=payload.get("email")).first()
+        return (user, None)
