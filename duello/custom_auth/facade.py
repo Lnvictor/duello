@@ -34,7 +34,7 @@ class JwtAuthentication(BaseAuthentication):
 
     def authenticate(self, request):
         header = self.authenticate_header(request)
-        if not header or 'Bearer' not in header:
+        if not header or "Bearer" not in header:
             return None
 
         return self.get_credentials(header.split()[1])
