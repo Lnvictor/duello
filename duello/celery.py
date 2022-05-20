@@ -4,7 +4,7 @@ from celery import Celery
 
 app = Celery("duello")
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "proj.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "duello.settings")
 
 app.config_from_object("django.conf:settings", namespace="CELERY")
 
