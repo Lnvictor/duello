@@ -22,3 +22,11 @@ def list_cages():
     queryset = CageSerializer(Cage.objects.all(), many=True)
     return queryset.data
 
+
+def update_cage(id, data):
+    obj = get_object_or_404(Cage, pk=id)
+    serializer = CageSerializer(data=data)
+    serializer.is_valid()
+    serializer.update(obj, data)
+    return serializer.data
+
