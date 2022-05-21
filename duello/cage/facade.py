@@ -1,10 +1,11 @@
 from duello.custom_auth.models import Users
+from duello.cage.serializers.cage_serializer import CageSerializer
 
-from .models import Cage
 
+def create_cage(creator, title, description):
+    data = {'creator': creator, 'title': title, 'description': description}
+    serializer = CageSerializer(data=data)
+    serializer.is_valid()
+    serializer.save()
+    return serializer.data
 
-def create_cage(user_id, title, description):
-    user = Users.objects.filter(id=id).get()
-    cage = Cage(creator=user, title=title, description=description)
-    cage.save()
-    return cage
