@@ -33,21 +33,21 @@ def jwt_handler():
 @fixture
 def user_mock(mocker):
     # User model mock
-    user_mock = Users(
+    user_mock = MagicMock(
         id=1,
         user_name="Lnvictor",
         user_email="vh141299@gmail.com",
         user_last_name="Pereira",
     )
-    return MagicMock(return_value=user_mock)
+    return user_mock
 
 
 @fixture
 def cage_mock(mocker, user_mock):
     # Cage model Mock
-    cage_mock = Cage(
+    cage_mock = MagicMock(
         title="Champions cage",
         creator=user_mock.return_value,
         description="This is a cage for champions. Weaks are not allowed",
     )
-    return MagicMock(return_value=cage_mock)
+    return cage_mock
