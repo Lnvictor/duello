@@ -41,3 +41,14 @@ def test_should_retrieve_cage_by_id(mocker, cage_mock):
 
     assert cage.get('title') == cage_mock.title
 
+
+def test_should_update_cage(mocker, cage_mock):
+    mocker.patch('duello.cage.facade.get_object_or_404', return_value=cage_mock)
+    updated_mock = cage_mock
+    updated_mock.title = 'title 2'
+    mocker.patch('duello.cage.facade.CageSerializer.update', return_value=updated_mock)
+
+    cage_received = update_cage(cage_mock.id, {'title': updated_mock.title})
+
+    assert cage_received.get('title') == updated_mock.title
+
