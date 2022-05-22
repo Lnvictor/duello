@@ -52,3 +52,11 @@ def test_should_update_cage(mocker, cage_mock):
 
     assert cage_received.get('title') == updated_mock.title
 
+
+def test_should_delete_cage(mocker, cage_mock):
+    mocker.patch('duello.cage.facade.get_object_or_404', return_value=cage_mock)
+    mocker.patch('duello.cage.facade.delete_cage', return_value=cage_mock)
+
+    cage = delete_cage(cage_mock.id)
+
+    assert cage.id == cage_mock.id
