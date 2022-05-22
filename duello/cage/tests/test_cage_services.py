@@ -9,12 +9,13 @@ def test_should_not_create_cage_due_to_invalid_creator(mocker, user_mock, cage_m
     with pytest.raises(ObjectDoesNotExist):
         mocker.patch("duello.cage.facade.Users.objects", return_value=user_mock)
         mocker.patch(
-            "duello.cage.facade.Cage",
+            "duello.cage.facade.CageSerializer",
             return_value=cage_mock,
             side_effect=ObjectDoesNotExist(),
         )
+        mocker.patch('duello.cage.facade.CageSerializer.save', return_value=True)
         create_cage(
-            user_id=user_mock.id,
+            creator=user_mock,
             title=cage_mock.title,
             description=cage_mock.description,
         )
@@ -23,7 +24,8 @@ def test_should_not_create_cage_due_to_invalid_creator(mocker, user_mock, cage_m
 def test_shoud_create_cage(mocker, user_mock, cage_mock):
     # TODO: Test happy path
     mocker.patch("duello.cage.facade.Users.objects", return_value=user_mock)
+    mocker.patch('duello.cage.facade.CageSerializer.save', return_value=True)
     mocker.patch("duello.cage.facade.Cage", return_value=cage_mock)
     assert create_cage(
-        user_id=user_mock.id, title=cage_mock.title, description=cage_mock.description
+        creator=user_mock, title=cage_mock.title, description=cage_mock.description
     )
