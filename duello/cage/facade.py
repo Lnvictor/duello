@@ -30,3 +30,8 @@ def update_cage(id, data):
     serializer.update(obj, data)
     return serializer.data
 
+
+def delete_cage(id):
+    cage = get_object_or_404(Cage, pk=id)
+    cage.delete()
+    return cage
