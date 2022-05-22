@@ -19,4 +19,5 @@ from django.urls import include, path
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("auth/", include("duello.custom_auth.urls")),
+    path("cage/", include("duello.cage.urls")),
 ]

@@ -1,5 +1,3 @@
-from email.policy import default
-
 from django.contrib.auth import base_user
 from django.db import models
 
