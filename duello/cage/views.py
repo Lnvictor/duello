@@ -1,11 +1,13 @@
 from rest_framework import viewsets
-from rest_framework.decorators import authentication_classes, permission_classes
+from rest_framework.decorators import (authentication_classes,
+                                       permission_classes)
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
+from duello.cage.facade import (create_cage, delete_cage, list_cages,
+                                retrieve_cage_by_id, update_cage)
 from duello.cage.serializers.cage_serializer import CageSerializer
 from duello.custom_auth.facade import JwtAuthentication
-from duello.cage.facade import create_cage, retrieve_cage_by_id, list_cages, delete_cage, update_cage
 
 
 @authentication_classes([JwtAuthentication])
@@ -27,4 +29,3 @@ class CageViewSet(viewsets.ViewSet):
     def destroy(self, request, id):
         delete_cage(id)
         return Response(status=200)
-

@@ -1,11 +1,12 @@
-from duello.custom_auth.models import Users
+from django.shortcuts import get_object_or_404
+
 from duello.cage.models import Cage
 from duello.cage.serializers.cage_serializer import CageSerializer
-from django.shortcuts import  get_object_or_404
+from duello.custom_auth.models import Users
 
 
 def create_cage(creator, title, description):
-    data = {'creator': creator, 'title': title, 'description': description}
+    data = {"creator": creator, "title": title, "description": description}
     serializer = CageSerializer(data=data)
     serializer.is_valid()
     serializer.save()
@@ -13,9 +14,9 @@ def create_cage(creator, title, description):
 
 
 def retrieve_cage_by_id(id):
-   cage = get_object_or_404(Cage, pk=id)
-   serializer = CageSerializer(cage)
-   return serializer.data
+    cage = get_object_or_404(Cage, pk=id)
+    serializer = CageSerializer(cage)
+    return serializer.data
 
 
 def list_cages():

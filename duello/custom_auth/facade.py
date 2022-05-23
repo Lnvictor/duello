@@ -18,7 +18,8 @@ class JwtHandler:
 
     def gen_token(self, *args, **kwargs):
         data = dict(**kwargs)
-        return jwt.encode(data, self.__key, algorithm="RS256")
+        data['exp'] = config('JWT_EXPIRES_IN', default=3600)
+        return jwt.encode(data, self.__key, algorithm="RS256") 
 
     def decode_token(self, token):
         try:
