@@ -51,3 +51,15 @@ def cage_mock(mocker, user_mock):
         description="This is a cage for champions. Weaks are not allowed",
     )
     return cage_mock
+
+
+@fixture
+def question_mock(mocker, cage_mock, user_mock):
+    question_mock = MagicMock(
+        creator=user_mock.return_value,
+        title="Question bunitinha",
+        description="teste teste teste",
+        cages=[cage_mock.return_value]
+    ) 
+
+    return question_mock
