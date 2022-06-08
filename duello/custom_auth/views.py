@@ -30,7 +30,7 @@ def sign_up(request):
 @api_view(["POST"])
 @authentication_classes([JwtAuthentication])
 @permission_classes([AllowAny])
-def login(request):
+def login(request): 
     data = request.data
     user = Users.objects.filter(user_email=data["email"]).first()
 
@@ -48,6 +48,7 @@ def login(request):
     user.save()
 
     resp = {
+        "user_id": user.id,
         "name": user.user_name,
         "last_name": user.user_last_name,
         "email": user.user_email,

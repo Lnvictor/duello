@@ -31,3 +31,5 @@ class Users(base_user.AbstractBaseUser):
 
     def __repr__(self) -> str:
         return self.user_email
+    
+    USERNAME_FIELD = 'user_name'

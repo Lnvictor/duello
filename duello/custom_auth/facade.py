@@ -6,6 +6,8 @@ from rest_framework.exceptions import AuthenticationFailed
 
 from .models import Users
 
+from datetime import datetime, timedelta
+
 
 class JwtHandler:
     def __init__(self) -> None:
@@ -18,7 +20,8 @@ class JwtHandler:
 
     def gen_token(self, *args, **kwargs):
         data = dict(**kwargs)
-        data['exp'] = config('JWT_EXPIRES_IN', default=3600)
+        expires_in = config('JWT_EXPIRES_IN', default=3600, cast=int)
+        data['exp'] = (datetime.now() + timedelta(milliseconds=expires_in)).timestamp()
         return jwt.encode(data, self.__key, algorithm="RS256") 
 
     def decode_token(self, token):

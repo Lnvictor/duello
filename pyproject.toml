@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "duello"
-version = "0.1.0"
+version = "0.2.0"
 description = "Knowledge battles WebApp"
 authors = ["Victor Pereira"]
 license = "GNU"
@@ -14,6 +14,7 @@ PyJWT = "^2.3.0"
 cryptography = "^36.0.1"
 dj-database-url = "^0.5.0"
 celery = "^5.2.3"
+django-cors-headers = "^3.12.0"
 
 [tool.poetry.dev-dependencies]
 black = "^22.1.0"
