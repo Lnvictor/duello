@@ -48,6 +48,7 @@ def login(request):
     user.save()
 
     resp = {
+        "user_id": user.id,
         "name": user.user_name,
         "last_name": user.user_last_name,
         "email": user.user_email,
