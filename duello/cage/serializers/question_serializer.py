@@ -1,4 +1,4 @@
-from rest_framework import ModelSerializer
+from rest_framework import serializers
 
 from duello.cage.models import Question
 
@@ -6,4 +6,4 @@ from duello.cage.models import Question
 class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
-        fields = '__all__
+        fields = '__all__'
