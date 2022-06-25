@@ -67,8 +67,6 @@ user to login in the platform:
 Then to be an active user, you have to verify your email, you can do this sendind a token for your email by the following endpoint:
 
 - /auth/send_confirmation_email [POST]
-    Headers:
-    Authorization: Bearer <your_jwt_token>
 
     Payload:
     ```json
@@ -80,12 +78,10 @@ Then to be an active user, you have to verify your email, you can do this sendin
 After this, you will receive a token in your email, to verify your user you must send a request to the following endpoint: 
 
 - /auth/verify_code [POST]
-    Headers:
-    Authorization: Bearer <your_jwt_token>
-
     Paayload
     ```json
         {
+            "user_mail": "<user_mail>"
             "code": "<code_received>"
         }
     ```
