@@ -59,8 +59,8 @@ def login(request):
 
 
 @api_view(["POST"])
-@authentication_classes([JwtAuthentication])
-@permission_classes([IsAuthenticated])
+# @authentication_classes([JwtAuthentication])
+# @permission_classes([IsAuthenticated])
 def send_mail(request):
     data = request.data
     mail_token = "".join(secrets.choice(string.ascii_letters) for _ in range(6))
@@ -70,21 +70,22 @@ def send_mail(request):
         sender=config("DUELLO_MAIL"),
         destinatary=data["destinatary"],
     )
-    user = request.user
+    user = Users.objects.filter(user_email=data['destinatary']).first()
     user.last_sended_token = mail_token
     user.save()
     return Response(send_confirmation_mail(mail_schema))
 
 
 @api_view(["POST"])
-@authentication_classes([JwtAuthentication])
-@permission_classes([IsAuthenticated])
+# @authentication_classes([JwtAuthentication])
+# @permission_classes([IsAuthenticated])
 def verify_mail_code(request):
     data = request.data
-
-    if "code" in data.keys() and data["code"] == request.user.last_sended_token:
-        request.user.verified = True
-        request.user.save()
+    user = Users.objects.filter(user_email=data['user_email']).first()
+    
+    if "code" in data.keys() and data["code"] == user.last_sended_token:
+        user.verified = True
+        user.save()
         return Response({"message": "User verified"})
 
     return Response({"message": "Invalid info was provided"}, status=400)
