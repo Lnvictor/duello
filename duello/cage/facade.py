@@ -68,6 +68,19 @@ class CageService(BaseModelService):
     model_type = Cage
     serializer_type = CageSerializer
 
+    def filter_cages(self, filters):
+        cages_response = {}
+
+        for pair in filters.items():
+            tmp_filter = {pair[0]: pair[1]}
+            cages = self.model_type.objects.filter(**tmp_filter)
+            cages_response[pair[0]] = []
+
+            for cage in cages:
+                self._renew_serializer(instance=cage)
+                cages_response[pair[0]].append(self._serializer.data)
+
+        return cages_response
 
 class QuestionService(BaseModelService):
     model_type = Question
