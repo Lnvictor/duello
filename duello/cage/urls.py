@@ -6,9 +6,10 @@ urlpatterns = [
     path("cage", CageViewSet.as_view({"post": "create", "get": "list"}), name="cage"),
     path(
         "cage/<int:id>",
-        QuestionViewSet.as_view({"get": "retrieve", "delete": "destroy", "put": "update"}),
+        CageViewSet.as_view({"get": "retrieve", "delete": "destroy", "put": "update"}),
         name="cage_by_id",
     ),
+    path("cage/filter/<int:id>", CageViewSet.as_view({"get": "filter"}), name="filter_cage"),
     path("question", QuestionViewSet.as_view({"post": "create", "get": "list"}), name="question"),
     path(
         "question/<int:id>",

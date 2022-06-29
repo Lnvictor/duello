@@ -130,3 +130,9 @@ dmypy.json
 
 #ssh files
 .ssh/
+
+# setup shell script
+setup.sh
+
+#vscode config files
+.vscode/
