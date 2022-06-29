@@ -1,6 +1,7 @@
+from distutils.util import strtobool
+from urllib.robotparser import RequestRate
 from rest_framework import viewsets
-from rest_framework.decorators import (authentication_classes,
-                                       permission_classes)
+from rest_framework.decorators import action, authentication_classes, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
@@ -23,6 +24,20 @@ class CageViewSet(viewsets.ViewSet):
 
     def retrieve(self, request, id):
         return Response(cage_service.retrieve_by_id(id))
+    
+    @action(detail=True, methods=['get'])
+    def filter(self, request, id):
+        creator = strtobool(request.GET.get('creator'))
+        participant = strtobool(request.GET.get('participant'))
+        filters = {}
+
+        if creator:
+            filters.update({'creator_id': id})
+        
+        if participant:
+            filters.update({'participants__id': id})
+        
+        return Response(cage_service.filter_cages(filters))
 
     def destroy(self, request, id):
         cage_service.delete(id)
