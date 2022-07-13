@@ -6,7 +6,7 @@ from duello.cage.facade import question_service
 def test_should_create_question(mocker, question_mock):
     mocker.patch('duello.cage.facade.Question.objects', return_value=question_mock)
     mocker.patch('duello.cage.facade.QuestionSerializer.save', return_value=True)
-    
+
     data = {
         'id': question_mock.id,
         'title': question_mock.title,
@@ -31,6 +31,14 @@ def test_should_retrieve_question_by_id(mocker, question_mock):
     question = question_service.retrieve_by_id(question_mock.id)
 
     assert question.get('title') == question_mock.title
+
+
+def test_should_questions_by_cage_id(mocker, question_mock, cage_mock):
+    mocker.patch('duello.cage.facade.Question.objects.filter', return_value=[question_mock])
+
+    questions = question_service.filter_by({'cages__id': cage_mock.id})
+
+    assert questions['cages__id'][0].get('title') == question_mock.title
 
 
 def test_should_update_question(mocker, question_mock):

@@ -136,3 +136,6 @@ setup.sh
 
 #vscode config files
 .vscode/
+
+#pycharm config files
+.idea/

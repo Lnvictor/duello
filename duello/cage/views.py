@@ -1,5 +1,4 @@
 from distutils.util import strtobool
-from urllib.robotparser import RequestRate
 from rest_framework import viewsets
 from rest_framework.decorators import action, authentication_classes, permission_classes
 from rest_framework.permissions import IsAuthenticated
@@ -24,7 +23,7 @@ class CageViewSet(viewsets.ViewSet):
 
     def retrieve(self, request, id):
         return Response(cage_service.retrieve_by_id(id))
-    
+
     @action(detail=True, methods=['get'])
     def filter(self, request, id):
         creator = strtobool(request.GET.get('creator'))
@@ -33,11 +32,11 @@ class CageViewSet(viewsets.ViewSet):
 
         if creator:
             filters.update({'creator_id': id})
-        
+
         if participant:
             filters.update({'participants__id': id})
-        
-        return Response(cage_service.filter_cages(filters))
+
+        return Response(cage_service.filter_by(filters))
 
     def destroy(self, request, id):
         cage_service.delete(id)
@@ -56,10 +55,20 @@ class QuestionViewSet(viewsets.ViewSet):
     def retrieve(self, request, id):
         return Response(question_service.retrieve_by_id(id))
 
+    @action(detail=True, methods=['get'])
+    def filter(self, request, id):
+        cage = strtobool(request.GET.get('cage'))
+        filters = {}
+
+        if cage:
+            filters.update({'cages__id': id})
+
+        return Response(question_service.filter_by(filters))
+
     def update(self, request, id):
         question_data = request.data
         return Response(question_service.update(id, question_data))
-    
+
     def destroy(self, request, id):
         question_service.delete(id)
         return Response(status=200)
@@ -80,6 +89,16 @@ class AnswerViewSet(viewsets.ViewSet):
 
     def retrieve(self, request, id):
         return Response(answer_service.retrieve_by_id(id))
+
+    @action(detail=True, methods=['get'])
+    def filter(self, request, id):
+        question = strtobool(request.GET.get('question'))
+        filters = {}
+
+        if question:
+            filters.update({'question_id': id})
+
+        return Response(answer_service.filter_by(filters=filters))
 
     def destroy(self, request, id):
         answer_service.delete(id)
