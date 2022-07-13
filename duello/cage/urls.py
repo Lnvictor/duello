@@ -16,10 +16,12 @@ urlpatterns = [
         QuestionViewSet.as_view({"get": "retrieve", "delete": "destroy", "put": "update"}),
         name="question_by_id",
     ),
+    path("question/filter/<int:id>", QuestionViewSet.as_view({'get': 'filter'}), name="filter_question"),
     path("answer", AnswerViewSet.as_view({"post": "create", "get": "list"}), name="answer"),
     path(
         "answer/<int:id>",
         AnswerViewSet.as_view({"get": "retrieve", "delete": "destroy", "put": "update"}),
         name="answer_by_id",
     ),
+    path("answer/filter/<int:id>", AnswerViewSet.as_view({"get": "filter"}), name="filter_answer")
 ]
