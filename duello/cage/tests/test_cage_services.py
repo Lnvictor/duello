@@ -31,6 +31,7 @@ def test_should_retrieve_all_cages(mocker, cage_mock):
     cages = cage_service.list()
     assert cages[0].get("title") == cage_mock.title
 
+
 @pytest.mark.parametrize('filter_type', ['creator', 'participant'])
 def test_should_retrieve_cages_by_creator_id(filter_type, mocker, cage_mock, user_mock):
     filter_mapping = {'creator': 'creator_id', 'participant': 'participants__id'}
@@ -39,9 +40,10 @@ def test_should_retrieve_cages_by_creator_id(filter_type, mocker, cage_mock, use
         filter_mapping[filter_type]: user_mock.id
     }
 
-    data = cage_service.filter_cages(filters=filters)
+    data = cage_service.filter_by(filters=filters)
 
     assert data.get(filter_mapping[filter_type])[0].get('title') == cage_mock.title
+
 
 def test_should_retrieve_cage_by_id(mocker, cage_mock):
     mocker.patch("duello.cage.facade.get_object_or_404", return_value=cage_mock)
